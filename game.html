@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>cr</title>
+	<style type="text/css">html,body{margin: 0;padding: 0;}</style>
+</head>
+<body>
+<canvas id="gamecanvas" width="700" height="500" style="border: 1px solid #18a;"></canvas>
+
+<script type="text/javascript">
+	var c = document.getElementById("gamecanvas");
+	var ctx = c.getContext("2d");
+	ctx.translate(0.5,0.5);
+	var hudu = Math.PI / 180;
+	var fj_start_x = 80;
+	var fj_start_y = 290;
+	var eo_x;
+	var eo_y;
+	var eo_color;
+	var enemyset = new Array();
+
+	function ran(a_bottom,a_top){
+		var ran_;
+		ran_ = Math.floor(Math.random()*(a_top-a_bottom)+a_bottom);
+		return ran_;
+	}
+
+	function main(){
+		drawfj();
+		
+		score();
+	}
+
+	function drawfj(){
+		ctx.beginPath();
+		ctx.lineWidth = 1;
+		ctx.moveTo(fj_start_x,fj_start_y);
+		ctx.lineTo(fj_start_x + 20,fj_start_y);
+		ctx.lineTo(fj_start_x + 20,fj_start_y - 20);
+		ctx.lineTo(fj_start_x,fj_start_y - 20);
+		ctx.closePath();
+		ctx.fillStyle = "#111";
+		ctx.fill();
+	}
+
+	function shotobject(){
+		this.x = fj_start_x+8;
+		this.y = fj_start_y-12;
+		this.zhuan_y = function(){
+			if (this.y < 0) {
+				this.x = fj_start_x+8;
+				this.y = fj_start_y-12;
+			}
+			this.y = this.y - 5;
+			ctx.beginPath();
+			ctx.lineWidth = 1;
+			ctx.moveTo(this.x,this.y);
+			ctx.lineTo(this.x+4,this.y);
+			ctx.lineTo(this.x+4,this.y-8);
+			ctx.lineTo(this.x,this.y-8);
+			ctx.closePath();
+			ctx.fillStyle = "#36a";
+			ctx.fill();
+		}
+	}
+
+	function object_move(){
+
+	}
+
+	function enemyobject_create(){
+	/*	while (enemyset.length < 10) {
+			eo_x = ran(10,170);
+			eo_y = 0;
+			eo_color = "#f1f";
+			enemyset.push()
+		}*/
+	}
+
+	function enemyobject_move(){
+		ctx.beginPath();
+		ctx.lineWidth = 1;
+		ctx.moveTo(eo_x,eo_y);
+		ctx.lineTo(eo_x + 20,eo_y);
+		ctx.lineTo(eo_x + 20,eo_y + 20);
+		ctx.lineTo(eo_x,eo_y + 20);
+		ctx.closePath();
+		ctx.fillStyle = "#f1f";
+		ctx.fill();
+	}
+
+	function gamestart(){
+
+	}
+
+	function gameover(){
+
+	}
+
+	function score(){
+		var ss = "SCORE:";
+		ctx.font = 'normal 10px arial';
+        ctx.textAlign = 'left';
+        ctx.textBaseline = 'top';
+        ctx.strokeStyle = '#DF5326';
+        ctx.strokeText(ss, 10, 10);
+	}
+
+
+	function refresh_canvas(){
+		ctx.fillStyle="#FFFFFF";  
+		ctx.beginPath();
+		ctx.fillRect(0,0,c.width,c.height);
+		ctx.closePath();
+		main();
+
+	}
+	var b_o = new shotobject();
+	var ok_go = setInterval("refresh_canvas(),b_o.zhuan_y()",1);
+	
+	//var ok_go2 = setInterval("b_o.zhuan_y()",1);
+
+	function mouse_control(){
+	
+			c.onmousedown = function(){
+				//按下鼠标时执行下面的操作
+				var aaax = event.clientX;
+				var aaay = event.clientY;
+				var x=event.clientX;
+				var	y=event.clientY;
+				if(aaax > fj_start_x && aaax < (fj_start_x + 20) && aaay > (fj_start_y -20) && aaay < fj_start_y){
+					c.onmousemove = function(){
+					//移动鼠标时执行下面的操作
+					x=event.clientX;
+					y=event.clientY;
+					if (x > aaax || x == aaax) {
+						fj_start_x = fj_start_x + x - aaax;
+						aaax = x;
+					}
+					if (x < aaax) {
+						fj_start_x = fj_start_x + x - aaax;
+						aaax = x;
+					}
+					if (y>aaay || y == aaay) {
+						fj_start_y = fj_start_y + y - aaay;
+						aaay = y;
+					}
+					if (y < aaay) {
+						fj_start_y = fj_start_y + y - aaay;
+						aaay = y;
+					}
+
+					}
+				}
+			}
+			c.onmouseup =function(){
+				c.onmousemove =function(){
+					//不按鼠标时不执行操作
+				}
+			}
+	}
+
+	function shot_move(){
+		/*var b_o = new shotobject();
+		b_o.zhuan_y();*/
+	}
+
+	function pengzhuang(){
+		
+	}
+
+	mouse_control();
+	//shot_move();
+
+</script>
+</body>
+</html>
